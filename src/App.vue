@@ -1,13 +1,6 @@
 <template>
   <v-app>
-    <v-toolbar dark color="primary" app>
-      <v-toolbar-side-icon></v-toolbar-side-icon>
-      <v-toolbar-title class="headline">
-        <span>CicloClube BTT Elvas</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-    </v-toolbar>
-
+    <NavBar />
     <v-content>
       <Home/>
     </v-content>
@@ -16,13 +9,15 @@
 
 <script>
 import HelloWorld from "./components/HelloWorld";
+import NavBar from "./components/NavBar";
 import Home from "./views/Home";
 
 export default {
   name: "App",
   components: {
     HelloWorld,
-    Home
+    Home,
+    NavBar
   },
   data() {
     return {
