@@ -1,22 +1,20 @@
 <template>
   <v-app>
-    <NavBar />
+    <NavBar/>
     <v-content>
-      <Home/>
+      <router-view/>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
 import NavBar from "./components/NavBar";
-import Home from "./views/Home";
+import Calendar from "./views/Calendar";
 
 export default {
   name: "App",
   components: {
-    HelloWorld,
-    Home,
+    Calendar,
     NavBar
   },
   data() {

@@ -1,7 +1,6 @@
 <template>
   <nav>
     <v-toolbar flat dark color="primary" app>
-      <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
       <v-avatar color="grey lighten-4">
         <img src="../assets/btt-round-logo.jpg" alt="avatar">
       </v-avatar>
@@ -11,21 +10,21 @@
       <v-spacer></v-spacer>
     </v-toolbar>
 
-    <v-navigation-drawer v-model="drawer" app :mini-variant.sync="mini" hide-overlay stateless>
-      <v-toolbar flat class="transparent">
+    <v-navigation-drawer v-model="drawer" app :mini-variant="mini" hide-overlay stateless>
+      <v-toolbar color="primary" flat class="transparent">
         <v-list class="pa-0">
           <v-list-tile>
-            <v-btn icon v-if="mini" @click.stop="mini = !mini">
+            <v-btn color="white" icon v-if="mini" @click.stop="mini = !mini">
               <v-icon color="primary">chevron_right</v-icon>
             </v-btn>
 
             <v-list-tile-content>
-              <v-list-tile-title>Menu</v-list-tile-title>
+              <v-list-tile-title class="white--text">Menu</v-list-tile-title>
             </v-list-tile-content>
 
             <v-list-tile-action>
-              <v-btn icon v-if="!mini" @click.stop="mini = !mini">
-                <v-icon>chevron_left</v-icon>
+              <v-btn color="white" icon v-if="!mini" @click.stop="mini = !mini">
+                <v-icon color="primary">chevron_left</v-icon>
               </v-btn>
             </v-list-tile-action>
           </v-list-tile>
@@ -35,9 +34,9 @@
       <v-list class="pt-0" dense>
         <v-divider></v-divider>
 
-        <v-list-tile v-for="item in items" :key="item.title">
+        <v-list-tile v-for="item in items" :key="item.title" router :to="item.route">
           <v-list-tile-action>
-            <v-icon color="primary">{{ item.icon }}</v-icon>
+            <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
 
           <v-list-tile-content>
@@ -56,14 +55,12 @@ import { Component, Vue } from "vue-property-decorator";
 export default class NavBar extends Vue {
   data(): any {
     return {
-      drawer: false,
-      snackbar: false,
+      drawer: true,
+      mini: false,
       items: [
-        { title: "Home", icon: "dashboard" },
-        { title: "About", icon: "question_answer" }
-      ],
-      mini: true,
-      right: null
+        { title: "Calendário", icon: "event", route: "/calendar" },
+        { title: "About", icon: "question_answer", route: "/about" }
+      ]
     };
   }
 }
