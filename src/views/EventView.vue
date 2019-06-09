@@ -66,9 +66,10 @@
 </template>
 
 <script lang="ts">
+import { mapGetters, mapActions } from "vuex";
 import { Component, Vue } from "vue-property-decorator";
-import { EventModel } from "../models/Event/EventModel";
-import EventForm from "../components/Event/EventForm.vue";
+import { EventModel } from "../models/event/EventModel";
+import EventForm from "../components/event/EventForm.vue";
 
 @Component({
   components: {

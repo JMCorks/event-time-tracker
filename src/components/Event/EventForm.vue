@@ -27,7 +27,7 @@
         <template v-slot:activator="{ on }">
           <v-text-field
             v-model="date"
-            label="Picker without buttons"
+            label="Data do evento"
             prepend-icon="event"
             :rules="requiredFieldValidation"
             readonly
@@ -45,7 +45,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { EventModel } from "@/models/Event/EventModel";
+import { EventModel } from "@/models/event/EventModel";
 
 @Component({
   props: {
@@ -75,11 +75,17 @@ export default class EventForm extends Vue {
   public validate() {
     if ((this.$refs.form as HTMLFormElement).validate()) {
       this.reset();
+      this.resetValidation();
+      this.close();
     }
   }
 
   private reset() {
     (this.$refs.form as HTMLFormElement).reset();
+  }
+
+  private resetValidation() {
+    (this.$refs.form as HTMLFormElement).resetValidation();
   }
 }
 </script>

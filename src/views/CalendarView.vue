@@ -69,9 +69,15 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { MapperForState } from "vuex";
+import { State, Action, Getter } from "vuex-class";
+import { EventModel } from "../models/event/EventModel";
 
 @Component
 export default class CalendarView extends Vue {
+  @Getter("events") events: EventModel[];
+  @Action("getEvents") getEvents: any;
+
   private now: Date = new Date();
   public today: string = `${this.now.getFullYear()}-${this.now.getMonth() +
     1}-${this.now.getDate()}`;
@@ -79,61 +85,14 @@ export default class CalendarView extends Vue {
   public start: string = `${this.now.getFullYear()}-${this.now.getMonth() +
     1}-01`;
 
-  events = [
-    {
-      title: "Vacation",
-      details: "Going to the beach!",
-      date: "2019-06-30",
-      open: false
-    },
-    {
-      title: "Vacation",
-      details: "Going to the beach!",
-      date: "2018-12-31",
-      open: false
-    },
-    {
-      title: "Vacation",
-      details: "Going to the beach!",
-      date: "2019-01-01",
-      open: false
-    },
-    {
-      title: "Meeting",
-      details: "Spending time on how we do not have enough time",
-      date: "2019-01-07",
-      open: false
-    },
-    {
-      title: "30th Birthday",
-      details: "Celebrate responsibly",
-      date: "2019-01-03",
-      open: false
-    },
-    {
-      title: "New Year",
-      details: "Eat chocolate until you pass out",
-      date: "2019-01-01",
-      open: false
-    },
-    {
-      title: "Conference",
-      details: "Mute myself the whole time and wonder why I am on this call",
-      date: "2019-01-21",
-      open: false
-    },
-    {
-      title: "Hackathon",
-      details: "Code like there is no tommorrow",
-      date: "2019-02-01",
-      open: false
-    }
-  ];
-
   get eventsMap() {
     const map: any = {};
     this.events.forEach((e: any) => (map[e.date] = map[e.date] || []).push(e));
     return map;
+  }
+
+  created() {
+    this.getEvents();
   }
 }
 </script>

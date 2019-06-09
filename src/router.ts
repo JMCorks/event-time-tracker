@@ -7,9 +7,15 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
+      path: "/",
+      redirect: {
+        name: "calendar"
+      }
+    },
+    {
       path: "/calendar",
       name: "calendar",
-      component: CalendarView
+      component: CalendarView,
     },
     {
       path: "/events",
