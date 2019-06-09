@@ -14,11 +14,9 @@ export default new Router({
     {
       path: "/events",
       name: "events",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
+      // Lazy loading
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/EventView.vue")
+        import(/* webpackChunkName: "EventView" */ "./views/EventView.vue")
     }
   ]
 });

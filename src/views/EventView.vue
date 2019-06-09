@@ -7,12 +7,12 @@
     </v-layout>
     <v-layout>
       <v-flex xs12 class="text-sm-right">
-        <v-btn @click="displayEventForm">
+        <v-btn color="primary" @click="displayEventForm()">
           <v-icon left dark>add</v-icon>Criar evento
         </v-btn>
       </v-flex>
     </v-layout>
-    <v-layout class="mt-4" row>
+    <v-layout class="mt-1" row>
       <v-flex xs12>
         <v-card>
           <v-list two-line subheader>
@@ -59,14 +59,22 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <v-dialog v-model="showEventForm" persistent max-width="500">
+      <event-form :event-form-data="selectedEvent" :close="closeEventForm"></event-form>
+    </v-dialog>
   </v-container>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { EventModel } from "../models/Event/EventModel";
+import EventForm from "../components/Event/EventForm.vue";
 
-@Component
+@Component({
+  components: {
+    EventForm
+  }
+})
 export default class EventView extends Vue {
   private selectedEvent: EventModel = new EventModel();
   private showEventForm: boolean = false;
@@ -100,6 +108,10 @@ export default class EventView extends Vue {
   displayEventForm(event?: EventModel) {
     this.selectedEvent = event ? event : new EventModel();
     this.showEventForm = true;
+  }
+
+  closeEventForm() {
+    this.showEventForm = false;
   }
 }
 </script>

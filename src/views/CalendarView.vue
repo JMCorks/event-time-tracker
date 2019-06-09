@@ -72,8 +72,12 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class CalendarView extends Vue {
-  today: Date = new Date();
-  start: string = `${this.today.getFullYear()}-${this.today.getMonth() + 1}-01`;
+  private now: Date = new Date();
+  public today: string = `${this.now.getFullYear()}-${this.now.getMonth() +
+    1}-${this.now.getDate()}`;
+
+  public start: string = `${this.now.getFullYear()}-${this.now.getMonth() +
+    1}-01`;
 
   events = [
     {
