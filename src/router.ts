@@ -1,13 +1,13 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Calendar from "./views/Calendar/index.vue";
+import Calendar from "./views/Calendar.vue";
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: "/",
+      path: "/calendar",
       name: "calendar",
       component: Calendar
     },

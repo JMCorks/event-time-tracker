@@ -53,16 +53,13 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class NavBar extends Vue {
-  data(): any {
-    return {
-      drawer: true,
-      mini: false,
-      items: [
-        { title: "Calendário", icon: "event", route: "/calendar" },
-        { title: "About", icon: "question_answer", route: "/about" }
-      ]
-    };
-  }
+  items = [
+    { title: "Calendário", icon: "event", route: "/calendar" },
+    { title: "About", icon: "question_answer", route: "/about" }
+  ];
+
+  drawer: boolean = true;
+  mini: boolean = false;
 }
 </script>
 

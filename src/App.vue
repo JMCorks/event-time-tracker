@@ -9,12 +9,10 @@
 
 <script>
 import NavBar from "./components/NavBar";
-import Calendar from "./views/Calendar";
 
 export default {
   name: "App",
   components: {
-    Calendar,
     NavBar
   },
   data() {
