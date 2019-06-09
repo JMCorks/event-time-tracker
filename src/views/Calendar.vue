@@ -1,6 +1,11 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-layout>
+      <v-flex xs12 class="text-sm-left">
+        <h1 class="headline">Calendário</h1>
+      </v-flex>
+    </v-layout>
+    <v-layout class="mt-4">
       <v-flex>
         <v-sheet height="500">
           <v-calendar v-model="start" ref="calendar" :now="today" :value="today" color="primary">
@@ -45,14 +50,14 @@
       </v-flex>
     </v-layout>
     <v-layout>
-      <v-flex xs12 class="text-sm-left text-xs-center">
-        <v-btn @click="$refs.calendar.prev()">
-          <v-icon left>keyboard_arrow_left</v-icon>
+      <v-flex xs12 class="text-sm-left">
+        <v-btn color="primary" @click="$refs.calendar.prev()">
+          <v-icon>keyboard_arrow_left</v-icon>
         </v-btn>
       </v-flex>
-      <v-flex xs12 class="text-sm-right text-xs-center">
-        <v-btn @click="$refs.calendar.next()">
-          <v-icon right>keyboard_arrow_right</v-icon>
+      <v-flex xs12 class="text-sm-right">
+        <v-btn color="primary" @click="$refs.calendar.next()">
+          <v-icon>keyboard_arrow_right</v-icon>
         </v-btn>
       </v-flex>
     </v-layout>
@@ -64,19 +69,14 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Calendar extends Vue {
-  todayDate: Date = new Date();
-
-  today: string = `${this.todayDate.getFullYear()}-${this.todayDate.getMonth() +
-    1}-${this.todayDate.getDate()}`;
-
-  start: string = `${this.todayDate.getFullYear()}-${this.todayDate.getMonth() +
-    1}-01`;
+  today: Date = new Date();
+  start: string = `${this.today.getFullYear()}-${this.today.getMonth() + 1}-01`;
 
   events = [
     {
       title: "Vacation",
       details: "Going to the beach!",
-      date: "2018-12-30",
+      date: "2019-06-30",
       open: false
     },
     {
