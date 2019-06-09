@@ -5,6 +5,9 @@
         <h1 class="headline">Calendário</h1>
       </v-flex>
     </v-layout>
+    <v-layout>
+      <v-flex xs12 class="text-sm-right"></v-flex>
+    </v-layout>
     <v-layout class="mt-4">
       <v-flex>
         <v-sheet height="500">
@@ -68,7 +71,7 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class Calendar extends Vue {
+export default class CalendarView extends Vue {
   today: Date = new Date();
   start: string = `${this.today.getFullYear()}-${this.today.getMonth() + 1}-01`;
 

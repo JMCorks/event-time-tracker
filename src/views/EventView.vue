@@ -5,6 +5,13 @@
         <h1 class="headline">Eventos</h1>
       </v-flex>
     </v-layout>
+    <v-layout>
+      <v-flex xs12 class="text-sm-right">
+        <v-btn @click="displayEventForm">
+          <v-icon left dark>add</v-icon>Criar evento
+        </v-btn>
+      </v-flex>
+    </v-layout>
     <v-layout class="mt-4" row>
       <v-flex xs12>
         <v-card>
@@ -43,7 +50,7 @@
               </v-list-tile-content>
 
               <v-list-tile-action>
-                <v-btn  icon ripple>
+                <v-btn icon ripple>
                   <v-icon color="primary">timeline</v-icon>
                 </v-btn>
               </v-list-tile-action>
@@ -57,9 +64,13 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { EventModel } from "../models/Event/EventModel";
 
 @Component
-export default class Event extends Vue {
+export default class EventView extends Vue {
+  private selectedEvent: EventModel = new EventModel();
+  private showEventForm: boolean = false;
+
   items: any = [
     {
       title: "Photos",
@@ -85,6 +96,11 @@ export default class Event extends Vue {
       subtitle: "Jan 10, 2014"
     }
   ];
+
+  displayEventForm(event?: EventModel) {
+    this.selectedEvent = event ? event : new EventModel();
+    this.showEventForm = true;
+  }
 }
 </script>
 
