@@ -76,7 +76,7 @@ import { EventModel } from "../models/event/EventModel";
 @Component
 export default class CalendarView extends Vue {
   @Getter("events") events: EventModel[];
-  @Action("getEvents") getEvents: any;
+  @Action("getEvents") getEvents: () => EventModel[];
 
   private now: Date = new Date();
   public today: string = `${this.now.getFullYear()}-${this.now.getMonth() +

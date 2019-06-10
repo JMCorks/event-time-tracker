@@ -26,7 +26,7 @@
       >
         <template v-slot:activator="{ on }">
           <v-text-field
-            v-model="date"
+            v-model="eventFormData.date"
             label="Data do evento"
             prepend-icon="event"
             :rules="requiredFieldValidation"
@@ -34,18 +34,21 @@
             v-on="on"
           ></v-text-field>
         </template>
-        <v-date-picker v-model="date" @input="datepickerMenu = false"></v-date-picker>
+        <v-date-picker v-model="eventFormData.date" @input="datepickerMenu = false"></v-date-picker>
       </v-menu>
 
-      <v-btn :disabled="!valid" color="success" @click="validate">Criar</v-btn>
+      <v-textarea v-model="eventFormData.details" label="Descrição"></v-textarea>
+
+      <v-btn :disabled="!valid" color="success" @click="validateAndSubmit">Criar</v-btn>
       <v-btn color="error" @click="close">Cancelar</v-btn>
     </v-card>
   </v-form>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 import { EventModel } from "@/models/event/EventModel";
+import { Action } from "vuex-class";
 
 @Component({
   props: {
@@ -60,6 +63,10 @@ import { EventModel } from "@/models/event/EventModel";
   }
 })
 export default class EventForm extends Vue {
+  @Action("postEvents") postEvents!: (newEvent: EventModel) => EventModel;
+  @Prop() eventFormData!: EventModel;
+  @Prop() close!: Function;
+
   public valid: boolean = true;
   public datepickerMenu: boolean = false;
   public date: string = new Date().toISOString().substr(0, 10);
@@ -72,8 +79,16 @@ export default class EventForm extends Vue {
     (f: string) => /.+@.+/.test(f) || "E-mail inválido"
   ];
 
-  public validate() {
+  public validateAndSubmit() {
     if ((this.$refs.form as HTMLFormElement).validate()) {
+      this.postEvents(
+        new EventModel(
+          this.eventFormData.title,
+          this.eventFormData.date,
+          this.eventFormData.organizerEmail,
+          this.eventFormData.details
+        )
+      );
       this.reset();
       this.resetValidation();
       this.close();

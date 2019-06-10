@@ -1,9 +1,9 @@
 import { Module } from "vuex";
-import DataStore from "nedb";
 
 import { EventModel } from "@/models/event/EventModel";
 import { EventsState } from "@/models/event/EventsState";
-import { RootState } from '@/models/RootState';
+import { RootState } from "@/models/RootState";
+import { PersistenceService } from '@/services/PersistenceService';
 
 export const eventsModule: Module<EventsState, RootState> = {
     state: {
@@ -15,15 +15,21 @@ export const eventsModule: Module<EventsState, RootState> = {
     mutations: {
         setEvents(state: EventsState, events: EventModel[]) {
             state.events = events;
-        }
+        },
+        addEvent(state: EventsState, newEvent: EventModel) {
+            state.events.push(newEvent);
+        },
     },
     actions: {
         getEvents({ commit }) {
-            const events: EventModel[] = [
-                new EventModel("Vacation", "2019-06-30", "Going to the beach!")
-            ];
-
-            return commit("setEvents", events);
+            PersistenceService.findDoc<EventModel>().then(events => {
+                return commit("setEvents", events);
+            });
+        },
+        postEvents({ commit }, newEvent: EventModel) {
+            PersistenceService.insertDoc<EventModel>(newEvent).then(event => {
+                return commit("addEvent", event);
+            });
         }
     }
 };
