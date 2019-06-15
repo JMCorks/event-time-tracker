@@ -3,7 +3,7 @@ import { Module } from "vuex";
 import { EventModel } from "@/models/event/EventModel";
 import { EventsState } from "@/models/event/EventsState";
 import { RootState } from "@/models/RootState";
-import { EventsService } from '@/services/EventsService';
+import { PersistenceService } from '@/services/PersistenceService';
 
 export const eventsModule: Module<EventsState, RootState> = {
     state: {
@@ -22,12 +22,12 @@ export const eventsModule: Module<EventsState, RootState> = {
     },
     actions: {
         getEvents({ commit }) {
-            EventsService.findEvents().then(events => {
+            PersistenceService.eventService.findEvents().then(events => {
                 return commit("setEvents", events);
             });
         },
         postEvents({ commit }, newEvent: EventModel) {
-            EventsService.insertEvent(newEvent).then(event => {
+            PersistenceService.eventService.insertEvent(newEvent).then(event => {
                 return commit("addEvent", event);
             });
         }

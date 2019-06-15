@@ -1,51 +1,34 @@
 import NeDB from "nedb";
+import { EventsService } from './EventsService';
 
 interface Dictionary<T> {
     [key: string]: T;
 }
 
 export class PersistenceService {
-    private static db: Dictionary<NeDB>;
-    protected static dbPath: string;
+    private static db: Dictionary<NeDB> = {};
+    public static eventService: EventsService;
 
-    public static initDB() {
+    public static initDB(dbPath: string) {
         return new Promise((resolve, error) => {
-            this.db[this.dbPath] = new NeDB({
-                filename: this.dbPath,
+            this.db[dbPath] = new NeDB({
+                filename: dbPath,
                 timestampData: true
             });
 
-            this.db[this.dbPath].loadDatabase((err: Error) => {
+            switch (dbPath) {
+                case 'events.db':
+                    this.eventService = new EventsService(this.db[dbPath]);
+                    break;
+                default:
+                    throw "Db handler not implemented";
+            }
+
+            this.db[dbPath].loadDatabase((err: Error) => {
                 if (err) {
                     error(err);
                 } else {
                     resolve(true);
-                }
-            });
-        });
-    }
-
-    protected static insertDoc<T>(doc: T): Promise<T> {
-        debugger;
-        return new Promise((resolve, error) => {
-            this.db[this.dbPath].insert(doc, (err: Error, newDocument: T) => {
-                if (err) {
-                    error(err);
-                } else {
-                    resolve(newDocument);
-                }
-            });
-        });
-    }
-
-    protected static findDoc<T>(where?: T): Promise<Array<T>> {
-        debugger;
-        return new Promise((resolve, error) => {
-            this.db[this.dbPath].find(where, (err: Error, documents: T[]) => {
-                if (err) {
-                    error(err);
-                } else {
-                    resolve(documents);
                 }
             });
         });
