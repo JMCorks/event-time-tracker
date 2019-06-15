@@ -3,7 +3,7 @@ import "./plugins/vuetify"
 import App from "./App.vue";
 import router from "./router";
 import store from "./store/index";
-import { PersistenceService } from './services/PersistenceService';
+import { EventsService } from './services/EventsService';
 
 Vue.config.productionTip = false;
 
@@ -12,6 +12,6 @@ new Vue({
   store,
   render: h => h(App),
   created: () => {
-    PersistenceService.initDB("../../fs/events.db");
+    EventsService.initDB();
   }
 }).$mount("#app");

@@ -1,16 +1,21 @@
 import NeDB from "nedb";
 
-export class PersistenceService<T> {
-    private static db: NeDB;
+interface Dictionary<T> {
+    [key: string]: T;
+}
 
-    public static initDB(dbPath: string) {
+export class PersistenceService {
+    private static db: Dictionary<NeDB>;
+    protected static dbPath: string;
+
+    public static initDB() {
         return new Promise((resolve, error) => {
-            this.db = new NeDB({
-                filename: dbPath,
+            this.db[this.dbPath] = new NeDB({
+                filename: this.dbPath,
                 timestampData: true
             });
 
-            this.db.loadDatabase((err: Error) => {
+            this.db[this.dbPath].loadDatabase((err: Error) => {
                 if (err) {
                     error(err);
                 } else {
@@ -20,9 +25,10 @@ export class PersistenceService<T> {
         });
     }
 
-    public static insertDoc<T>(doc: T): Promise<T> {
+    protected static insertDoc<T>(doc: T): Promise<T> {
+        debugger;
         return new Promise((resolve, error) => {
-            this.db.insert(doc, (err: Error, newDocument: T) => {
+            this.db[this.dbPath].insert(doc, (err: Error, newDocument: T) => {
                 if (err) {
                     error(err);
                 } else {
@@ -32,9 +38,10 @@ export class PersistenceService<T> {
         });
     }
 
-    public static findDoc<T>(where?: T): Promise<Array<T>> {
+    protected static findDoc<T>(where?: T): Promise<Array<T>> {
+        debugger;
         return new Promise((resolve, error) => {
-            this.db.find(where, (err: Error, documents: T[]) => {
+            this.db[this.dbPath].find(where, (err: Error, documents: T[]) => {
                 if (err) {
                     error(err);
                 } else {

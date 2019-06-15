@@ -4,7 +4,7 @@ export class EventModel {
     public details: string;
     public organizerEmail: string;
 
-    constructor(title: string, date: string, organizerEmail: string, details: string) {
+    constructor(title: string = "", date: string = "", organizerEmail: string = "", details: string = "") {
         this.title = title;
         this.date = date;
         this.details = details;
