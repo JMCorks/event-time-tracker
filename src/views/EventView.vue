@@ -69,7 +69,7 @@
 import { mapGetters, mapActions } from "vuex";
 import { Component, Vue } from "vue-property-decorator";
 import { EventModel } from "../models/event/EventModel";
-import EventForm from "../components/event/EventForm.vue";
+import EventForm from "@/components/event/EventForm.vue";
 
 @Component({
   components: {
@@ -106,12 +106,12 @@ export default class EventView extends Vue {
     }
   ];
 
-  displayEventForm(event?: EventModel) {
+  public displayEventForm(event?: EventModel) {
     this.selectedEvent = event ? event : new EventModel();
     this.showEventForm = true;
   }
 
-  closeEventForm() {
+  public closeEventForm() {
     this.showEventForm = false;
   }
 }

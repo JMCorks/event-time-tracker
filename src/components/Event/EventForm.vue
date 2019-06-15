@@ -39,7 +39,11 @@
 
       <v-textarea v-model="eventFormData.details" label="Descrição"></v-textarea>
 
-      <v-btn :disabled="!valid" color="success" @click="validateAndSubmit">Criar</v-btn>
+      <v-btn
+        :disabled="!valid"
+        color="success"
+        @click="validateAndSubmit"
+      >{{ isCreating? 'Criar': 'Actualizar' }}</v-btn>
       <v-btn color="error" @click="close">Cancelar</v-btn>
     </v-card>
   </v-form>
@@ -64,12 +68,17 @@ import { Action } from "vuex-class";
 })
 export default class EventForm extends Vue {
   @Action("postEvents") postEvents!: (newEvent: EventModel) => EventModel;
+  @Action("putEvent") putEvent!: (event: EventModel) => EventModel;
   @Prop() eventFormData!: EventModel;
   @Prop() close!: Function;
 
   public valid: boolean = true;
   public datepickerMenu: boolean = false;
   public date: string = new Date().toISOString().substr(0, 10);
+
+  get isCreating(): boolean {
+    return !this.eventFormData._id;
+  }
 
   public requiredFieldValidation: [(f: string) => any] = [
     (f: string) => !!f || "Campo obrigatório"
@@ -79,16 +88,28 @@ export default class EventForm extends Vue {
     (f: string) => /.+@.+/.test(f) || "E-mail inválido"
   ];
 
+  private mapFormToEvent(): EventModel {
+    let event: EventModel = new EventModel();
+
+    if (!this.isCreating) {
+      event._id = this.eventFormData._id;
+    }
+
+    event.title = this.eventFormData.title;
+    event.date = this.eventFormData.date;
+    event.details = this.eventFormData.details;
+    event.organizerEmail = this.eventFormData.organizerEmail;
+    return event;
+  }
+
   public validateAndSubmit() {
     if ((this.$refs.form as HTMLFormElement).validate()) {
-      this.postEvents(
-        new EventModel(
-          this.eventFormData.title,
-          this.eventFormData.date,
-          this.eventFormData.organizerEmail,
-          this.eventFormData.details
-        )
-      );
+      if (this.isCreating) {
+        this.postEvents(this.mapFormToEvent());
+      } else {
+        this.putEvent(this.mapFormToEvent());
+      }
+
       this.reset();
       this.resetValidation();
       this.close();

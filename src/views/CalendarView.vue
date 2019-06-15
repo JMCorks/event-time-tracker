@@ -13,40 +13,36 @@
         <v-sheet height="500">
           <v-calendar v-model="start" ref="calendar" :now="today" :value="today" color="primary">
             <template v-slot:day="{ date }">
-              <template v-for="event in eventsMap[date]">
-                <v-menu :key="event.title" v-model="event.open" full-width offset-x>
-                  <template v-slot:activator="{ on }">
-                    <div
-                      v-if="!event.time"
-                      v-ripple
-                      class="my-event"
-                      v-on="on"
-                      v-html="event.title"
-                    ></div>
-                  </template>
-                  <v-card color="grey lighten-4" min-width="350px" flat>
-                    <v-toolbar color="primary" dark>
-                      <v-btn icon>
-                        <v-icon>edit</v-icon>
-                      </v-btn>
-                      <v-toolbar-title v-html="event.title"></v-toolbar-title>
-                      <v-spacer></v-spacer>
-                      <v-btn icon>
-                        <v-icon>favorite</v-icon>
-                      </v-btn>
-                      <v-btn icon>
-                        <v-icon>more_vert</v-icon>
-                      </v-btn>
-                    </v-toolbar>
-                    <v-card-title primary-title>
-                      <span v-html="event.details"></span>
-                    </v-card-title>
-                    <v-card-actions>
-                      <v-btn flat color="secondary">Cancel</v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-menu>
-              </template>
+              <div v-for="event in eventsMap[date]" :key="event._id">
+                <template>
+                  <v-menu :key="event.title" v-model="event.open" full-width offset-x>
+                    <template v-slot:activator="{ on }">
+                      <div
+                        v-if="!event.time"
+                        v-ripple
+                        class="my-event"
+                        v-on="on"
+                        v-html="event.title"
+                      ></div>
+                    </template>
+                    <v-card color="grey lighten-4" min-width="350px" flat>
+                      <v-toolbar color="primary" dark>
+                        <v-toolbar-title v-html="event.title"></v-toolbar-title>
+                        <v-spacer></v-spacer>
+                        <v-btn icon @click="displayEventForm(event)">
+                          <v-icon>edit</v-icon>
+                        </v-btn>
+                      </v-toolbar>
+                      <v-card-title primary-title>
+                        <span v-html="event.details"></span>
+                      </v-card-title>
+                      <v-card-actions>
+                        <v-btn flat color="secondary">Cancel</v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-menu>
+                </template>
+              </div>
             </template>
           </v-calendar>
         </v-sheet>
@@ -64,6 +60,9 @@
         </v-btn>
       </v-flex>
     </v-layout>
+    <v-dialog v-model="showEventForm" persistent max-width="500">
+      <event-form :event-form-data="selectedEvent" :close="closeEventForm"></event-form>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -72,11 +71,19 @@ import { Component, Vue } from "vue-property-decorator";
 import { MapperForState } from "vuex";
 import { State, Action, Getter } from "vuex-class";
 import { EventModel } from "../models/event/EventModel";
+import EventForm from "@/components/event/EventForm.vue";
 
-@Component
+@Component({
+  components: {
+    EventForm
+  }
+})
 export default class CalendarView extends Vue {
   @Getter("events") events: EventModel[];
   @Action("getEvents") getEvents: () => EventModel[];
+
+  private showEventForm: boolean = false;
+  private selectedEvent: EventModel = new EventModel();
 
   private now: Date = new Date();
   public today: string = `${this.now.getFullYear()}-${this.now.getMonth() +
@@ -93,6 +100,15 @@ export default class CalendarView extends Vue {
 
   created() {
     this.getEvents();
+  }
+
+  public displayEventForm(event: EventModel) {
+    this.selectedEvent = event ? { ...event } : new EventModel();
+    this.showEventForm = true;
+  }
+
+  public closeEventForm() {
+    this.showEventForm = false;
   }
 }
 </script>

@@ -19,6 +19,10 @@ export const eventsModule: Module<EventsState, RootState> = {
         addEvent(state: EventsState, newEvent: EventModel) {
             state.events.push(newEvent);
         },
+        updateEvent(state: EventsState, eventUpdated: EventModel) {
+            const index = state.events.findIndex(e => e._id === eventUpdated._id);
+            state.events[index] = eventUpdated;
+        }
     },
     actions: {
         getEvents({ commit }) {
@@ -29,6 +33,11 @@ export const eventsModule: Module<EventsState, RootState> = {
         postEvents({ commit }, newEvent: EventModel) {
             PersistenceService.eventService.insertEvent(newEvent).then(event => {
                 return commit("addEvent", event);
+            });
+        },
+        putEvent({ commit }, event: EventModel) {
+            PersistenceService.eventService.updateEvent(event).then(event => {
+                return commit("updateEvent", event);
             });
         }
     }
