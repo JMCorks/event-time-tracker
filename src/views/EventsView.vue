@@ -18,7 +18,7 @@
           <v-list two-line subheader>
             <v-subheader inset class="blue--text">Próximos eventos</v-subheader>
 
-            <v-list-tile v-for="event in nextEvents" :key="event.title" avatar>
+            <v-list-tile v-for="event in nextEvents" :key="event._id" avatar>
               <v-list-tile-avatar>
                 <v-icon class="blue lighten-1 white--text">bookmark</v-icon>
               </v-list-tile-avatar>
@@ -60,7 +60,7 @@
       </v-flex>
     </v-layout>
     <v-dialog v-model="showEventForm" persistent max-width="500">
-      <event-form :event-form-data="selectedEvent" :close="closeEventForm"></event-form>
+      <event-form :form-data="selectedEvent" :close="closeForm"></event-form>
     </v-dialog>
   </v-container>
 </template>
@@ -78,7 +78,7 @@ import EventForm from "@/components/event/EventForm.vue";
     EventForm
   }
 })
-export default class EventView extends Vue {
+export default class EventsView extends Vue {
   @Getter("events") events!: EventModel[];
   @Action("getEvents") getEvents!: () => EventModel[];
 
@@ -104,7 +104,7 @@ export default class EventView extends Vue {
     this.showEventForm = true;
   }
 
-  public closeEventForm() {
+  public closeForm() {
     this.showEventForm = false;
   }
 }

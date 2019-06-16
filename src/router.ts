@@ -22,7 +22,14 @@ export default new Router({
       name: "events",
       // Lazy loading
       component: () =>
-        import(/* webpackChunkName: "EventView" */ "./views/EventView.vue")
+        import(/* webpackChunkName: "EventView" */ "./views/EventsView.vue")
+    },
+    {
+      path: "/persons",
+      name: "persons",
+      // Lazy loading
+      component: () =>
+        import(/* webpackChunkName: "EventView" */ "./views/PersonsView.vue")
     }
   ]
 });

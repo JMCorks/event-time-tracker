@@ -1,18 +1,9 @@
 <template>
   <v-form ref="form" v-model="valid" lazy-validation>
     <v-card class="pa-3">
-      <v-text-field
-        v-model="formData.title"
-        :rules="requiredFieldValidation"
-        label="Título"
-        required
-      ></v-text-field>
-      <v-text-field
-        v-model="formData.organizerEmail"
-        :rules="emailValidation"
-        label="E-mail"
-        required
-      ></v-text-field>
+      <v-text-field v-model="formData.name" :rules="requiredFieldValidation" label="Nome" required></v-text-field>
+
+      <v-text-field v-model="formData.email" :rules="emailValidation" label="E-mail" required></v-text-field>
 
       <v-menu
         v-model="datepickerMenu"
@@ -26,18 +17,23 @@
       >
         <template v-slot:activator="{ on }">
           <v-text-field
-            v-model="formData.date"
-            label="Data do evento"
+            v-model="formData.dateOfBirth"
+            label="Data de nascimento"
             prepend-icon="event"
             :rules="requiredFieldValidation"
             readonly
             v-on="on"
           ></v-text-field>
         </template>
-        <v-date-picker v-model="formData.date" @input="datepickerMenu = false"></v-date-picker>
+        <v-date-picker v-model="formData.dateOfBirth" @input="datepickerMenu = false"></v-date-picker>
       </v-menu>
 
-      <v-textarea v-model="formData.details" label="Descrição"></v-textarea>
+      <v-text-field
+        v-model="formData.idCard"
+        :rules="requiredFieldValidation"
+        label="Identificador"
+        required
+      ></v-text-field>
 
       <v-btn
         :disabled="!valid"
@@ -53,12 +49,12 @@
 import { Action } from "vuex-class";
 import { Component, Vue, Prop } from "vue-property-decorator";
 
-import { EventModel } from "@/models/event/EventModel";
+import { PersonModel } from "@/models/persons/PersonModel";
 
 @Component({
   props: {
     formData: {
-      type: EventModel,
+      type: PersonModel,
       required: true
     },
     close: {
@@ -68,9 +64,9 @@ import { EventModel } from "@/models/event/EventModel";
   }
 })
 export default class EventForm extends Vue {
-  @Action("postEvents") postEvents!: (newEvent: EventModel) => EventModel;
-  @Action("putEvent") putEvent!: (event: EventModel) => EventModel;
-  @Prop() formData!: EventModel;
+  @Action("postPersons") postPersons!: (newEvent: PersonModel) => PersonModel;
+  @Action("putPerson") putPerson!: (event: PersonModel) => PersonModel;
+  @Prop() formData!: PersonModel;
   @Prop() close!: Function;
 
   public valid: boolean = true;
@@ -88,26 +84,26 @@ export default class EventForm extends Vue {
     (f: string) => /.+@.+/.test(f) || "E-mail inválido"
   ];
 
-  private mapFormToEvent(): EventModel {
-    let event: EventModel = new EventModel();
+  private mapFormToEvent(): PersonModel {
+    let person: PersonModel = new PersonModel();
 
     if (!this.isCreating) {
-      event._id = this.formData._id;
+      person._id = this.formData._id;
     }
 
-    event.title = this.formData.title;
-    event.date = this.formData.date;
-    event.details = this.formData.details;
-    event.organizerEmail = this.formData.organizerEmail;
-    return event;
+    person.name = this.formData.name;
+    person.dateOfBirth = this.formData.dateOfBirth;
+    person.idCard = this.formData.idCard;
+    person.email = this.formData.email;
+    return person;
   }
 
   public validateAndSubmit() {
     if ((this.$refs.form as HTMLFormElement).validate()) {
       if (this.isCreating) {
-        this.postEvents(this.mapFormToEvent());
+        this.postPersons(this.mapFormToEvent());
       } else {
-        this.putEvent(this.mapFormToEvent());
+        this.putPerson(this.mapFormToEvent());
       }
 
       this.reset();

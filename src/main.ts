@@ -1,4 +1,5 @@
 import Vue from "vue";
+
 import "./plugins/vuetify"
 import App from "./App.vue";
 import router from "./router";
@@ -13,5 +14,6 @@ new Vue({
   render: h => h(App),
   beforeCreate: () => {
     PersistenceService.initDB('events.db');
+    PersistenceService.initDB('persons.db');
   }
 }).$mount("#app");

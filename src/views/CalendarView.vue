@@ -86,8 +86,7 @@ export default class CalendarView extends Vue {
   private selectedEvent: EventModel = new EventModel();
 
   private now: Date = new Date();
-  public today: string = `${this.now.getFullYear()}-${this.now.getMonth() +
-    1}-${this.now.getDate()}`;
+  public today: string = this.now.toISOString().substr(0, 10);
 
   public start: string = `${this.now.getFullYear()}-${this.now.getMonth() +
     1}-01`;
