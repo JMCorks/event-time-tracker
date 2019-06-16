@@ -18,19 +18,19 @@
           <v-list two-line subheader>
             <v-subheader inset class="blue--text">Próximos eventos</v-subheader>
 
-            <v-list-tile v-for="item in items" :key="item.title" avatar @click>
+            <v-list-tile v-for="event in nextEvents" :key="event.title" avatar>
               <v-list-tile-avatar>
                 <v-icon class="blue lighten-1 white--text">bookmark</v-icon>
               </v-list-tile-avatar>
 
               <v-list-tile-content>
-                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
+                <v-list-tile-title>{{ event.title }}</v-list-tile-title>
+                <v-list-tile-sub-title>{{ event.details }}</v-list-tile-sub-title>
               </v-list-tile-content>
 
               <v-list-tile-action>
                 <v-btn icon ripple>
-                  <v-icon color="primary">edit</v-icon>
+                  <v-icon color="primary" @click="displayEventForm(event)">edit</v-icon>
                 </v-btn>
               </v-list-tile-action>
             </v-list-tile>
@@ -39,14 +39,14 @@
 
             <v-subheader inset>Eventos concluidos</v-subheader>
 
-            <v-list-tile v-for="item in items2" :key="item.title" avatar @click>
+            <v-list-tile v-for="event in lastEvents" :key="event._id" avatar>
               <v-list-tile-avatar>
                 <v-icon class="grey white--text">bookmark_border</v-icon>
               </v-list-tile-avatar>
 
               <v-list-tile-content>
-                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
+                <v-list-tile-title>{{ event.title }}</v-list-tile-title>
+                <v-list-tile-sub-title>{{ event.details }}</v-list-tile-sub-title>
               </v-list-tile-content>
 
               <v-list-tile-action>
@@ -66,8 +66,10 @@
 </template>
 
 <script lang="ts">
-import { mapGetters, mapActions } from "vuex";
 import { Component, Vue } from "vue-property-decorator";
+import { mapGetters, mapActions } from "vuex";
+import { Getter, Action } from "vuex-class";
+
 import { EventModel } from "../models/event/EventModel";
 import EventForm from "@/components/event/EventForm.vue";
 
@@ -77,37 +79,28 @@ import EventForm from "@/components/event/EventForm.vue";
   }
 })
 export default class EventView extends Vue {
+  @Getter("events") events!: EventModel[];
+  @Action("getEvents") getEvents!: () => EventModel[];
+
   private selectedEvent: EventModel = new EventModel();
   private showEventForm: boolean = false;
+  private now: Date = new Date();
+  private nowDate: string = this.now.toISOString().substr(0, 10);
 
-  items: any = [
-    {
-      title: "Photos",
-      subtitle: "Jan 9, 2014"
-    },
-    {
-      title: "Recipes",
-      subtitle: "Jan 17, 2014"
-    },
-    {
-      title: "Work",
-      subtitle: "Jan 28, 2014"
-    }
-  ];
+  get nextEvents() {
+    return this.events.filter(e => e.date >= this.nowDate);
+  }
 
-  items2: any = [
-    {
-      title: "Vacation itinerary",
-      subtitle: "Jan 20, 2014"
-    },
-    {
-      title: "Kitchen remodel",
-      subtitle: "Jan 10, 2014"
-    }
-  ];
+  get lastEvents() {
+    return this.events.filter(e => e.date < this.nowDate);
+  }
+
+  created() {
+    this.getEvents();
+  }
 
   public displayEventForm(event?: EventModel) {
-    this.selectedEvent = event ? event : new EventModel();
+    this.selectedEvent = event ? { ...event } : new EventModel();
     this.showEventForm = true;
   }
 

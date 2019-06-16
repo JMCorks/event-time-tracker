@@ -3,7 +3,7 @@ import { Module } from "vuex";
 import { EventModel } from "@/models/event/EventModel";
 import { EventsState } from "@/models/event/EventsState";
 import { RootState } from "@/models/RootState";
-import { PersistenceService } from '@/services/PersistenceService';
+import { PersistenceService } from '@/services/persistence/PersistenceService';
 
 export const eventsModule: Module<EventsState, RootState> = {
     state: {
@@ -22,6 +22,7 @@ export const eventsModule: Module<EventsState, RootState> = {
         updateEvent(state: EventsState, eventUpdated: EventModel) {
             const index = state.events.findIndex(e => e._id === eventUpdated._id);
             state.events[index] = eventUpdated;
+            state.events = [...state.events];
         }
     },
     actions: {

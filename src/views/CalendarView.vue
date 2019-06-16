@@ -79,8 +79,8 @@ import EventForm from "@/components/event/EventForm.vue";
   }
 })
 export default class CalendarView extends Vue {
-  @Getter("events") events: EventModel[];
-  @Action("getEvents") getEvents: () => EventModel[];
+  @Getter("events") events!: EventModel[];
+  @Action("getEvents") getEvents!: () => EventModel[];
 
   private showEventForm: boolean = false;
   private selectedEvent: EventModel = new EventModel();
