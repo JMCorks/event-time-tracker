@@ -1,5 +1,5 @@
 import { DbHandler } from './DbHandler';
-import { PersonModel } from '@/models/persons/PersonModel';
+import { PersonModel } from '@/models/person/PersonModel';
 
 export class PersonsService extends DbHandler<PersonModel> {
     public findPersons(where?: PersonModel): Promise<Array<PersonModel>> {

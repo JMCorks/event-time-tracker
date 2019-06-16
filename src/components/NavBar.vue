@@ -5,7 +5,7 @@
         <img src="../assets/btt-round-logo.jpg" alt="avatar">
       </v-avatar>
       <v-toolbar-title class="headline">
-        <span>CicloClube BTT Elvas - Gestor de tempos</span>
+        <span>CicloClube BTT Elvas - Gestor de provas</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
     </v-toolbar>
@@ -56,7 +56,8 @@ export default class NavBar extends Vue {
   items = [
     { title: "Calendário", icon: "date_range", route: "/calendar" },
     { title: "Eventos", icon: "event", route: "/events" },
-    { title: "Pessoas", icon: "people", route: "/persons" }
+    { title: "Pessoas", icon: "people", route: "/persons" },
+    { title: "Escalões", icon: "list", route: "/scales" }
   ];
 
   drawer: boolean = true;

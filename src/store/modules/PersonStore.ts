@@ -1,7 +1,7 @@
 import { Module } from "vuex";
 
-import { PersonModel } from '@/models/persons/PersonModel';
-import { PersonsState } from '@/models/persons/PersonsState';
+import { PersonModel } from '@/models/person/PersonModel';
+import { PersonsState } from '@/models/person/PersonsState';
 import { RootState } from "@/models/RootState";
 import { PersistenceService } from '@/services/persistence/PersistenceService';
 
@@ -22,6 +22,7 @@ export const personsModule: Module<PersonsState, RootState> = {
         updatePerson(state: PersonsState, personUpdated: PersonModel) {
             const index = state.persons.findIndex(p => p._id === personUpdated._id);
             state.persons[index] = personUpdated;
+            state.persons = [...state.persons];
         }
     },
     actions: {

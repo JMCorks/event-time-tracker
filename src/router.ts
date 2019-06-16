@@ -29,7 +29,14 @@ export default new Router({
       name: "persons",
       // Lazy loading
       component: () =>
-        import(/* webpackChunkName: "EventView" */ "./views/PersonsView.vue")
+        import(/* webpackChunkName: "PersonsView" */ "./views/PersonsView.vue")
+    },
+    {
+      path: "/scales",
+      name: "scales",
+      // Lazy loading
+      component: () =>
+        import(/* webpackChunkName: "ScalesView" */ "./views/ScalesView.vue")
     }
   ]
 });
