@@ -17,7 +17,7 @@
       >
         <template v-slot:activator="{ on }">
           <v-text-field
-            v-model="formData.dateOfBirth"
+            v-model="formData.birth"
             label="Data de nascimento"
             prepend-icon="event"
             :rules="requiredFieldValidation"
@@ -25,7 +25,7 @@
             v-on="on"
           ></v-text-field>
         </template>
-        <v-date-picker v-model="formData.dateOfBirth" @input="datepickerMenu = false"></v-date-picker>
+        <v-date-picker v-model="formData.birth" @input="datepickerMenu = false"></v-date-picker>
       </v-menu>
 
       <v-text-field
@@ -63,7 +63,7 @@ import { PersonModel } from "@/models/persons/PersonModel";
     }
   }
 })
-export default class EventForm extends Vue {
+export default class PersonForm extends Vue {
   @Action("postPersons") postPersons!: (newEvent: PersonModel) => PersonModel;
   @Action("putPerson") putPerson!: (event: PersonModel) => PersonModel;
   @Prop() formData!: PersonModel;
@@ -92,7 +92,7 @@ export default class EventForm extends Vue {
     }
 
     person.name = this.formData.name;
-    person.dateOfBirth = this.formData.dateOfBirth;
+    person.birth = this.formData.birth;
     person.idCard = this.formData.idCard;
     person.email = this.formData.email;
     return person;

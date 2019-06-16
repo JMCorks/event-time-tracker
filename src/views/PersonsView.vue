@@ -48,6 +48,7 @@ import { mapGetters, mapActions } from "vuex";
 import { Getter, Action } from "vuex-class";
 
 import PersonForm from "@/components/person/PersonForm.vue";
+import { PersonModel } from "@/models/persons/PersonModel";
 
 @Component({
   components: {
@@ -55,18 +56,18 @@ import PersonForm from "@/components/person/PersonForm.vue";
   }
 })
 export default class PersonsView extends Vue {
-  @Getter("persons") persons!: PersonForm[];
-  @Action("getPersons") getPersons!: () => PersonForm[];
+  @Getter("persons") persons!: PersonModel[];
+  @Action("getPersons") getPersons!: () => PersonModel[];
 
-  private selectedPerson: PersonForm = new PersonForm();
+  private selectedPerson: PersonModel = new PersonModel();
   private showPersonForm: boolean = false;
 
   created() {
     this.getPersons();
   }
 
-  public displayPersonForm(person?: PersonForm) {
-    this.selectedPerson = person ? { ...person } : new PersonForm();
+  public displayPersonForm(person?: PersonModel) {
+    this.selectedPerson = person ? { ...person } : new PersonModel();
     this.showPersonForm = true;
   }
 

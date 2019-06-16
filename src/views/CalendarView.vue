@@ -15,7 +15,7 @@
             <template v-slot:day="{ date }">
               <div v-for="event in eventsMap[date]" :key="event._id">
                 <template>
-                  <v-menu :key="event.title" v-model="event.open" full-width offset-x>
+                  <v-menu :key="event._id" v-model="event.open" full-width offset-x>
                     <template v-slot:activator="{ on }">
                       <div
                         v-if="!event.time"
@@ -61,7 +61,7 @@
       </v-flex>
     </v-layout>
     <v-dialog v-model="showEventForm" persistent max-width="500">
-      <event-form :event-form-data="selectedEvent" :close="closeEventForm"></event-form>
+      <event-form :form-data="selectedEvent" :close="closeEventForm"></event-form>
     </v-dialog>
   </v-container>
 </template>
