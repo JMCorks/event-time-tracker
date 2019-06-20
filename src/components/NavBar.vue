@@ -14,7 +14,7 @@
       <v-toolbar color="primary" flat class="transparent">
         <v-list class="pa-0">
           <v-list-tile>
-            <v-btn color="white" icon v-if="mini" @click.stop="mini = !mini">
+            <v-btn round color="white" icon v-if="mini" @click.stop="mini = !mini">
               <v-icon color="primary">chevron_right</v-icon>
             </v-btn>
 
@@ -23,7 +23,7 @@
             </v-list-tile-content>
 
             <v-list-tile-action>
-              <v-btn color="white" icon v-if="!mini" @click.stop="mini = !mini">
+              <v-btn round color="white" icon v-if="!mini" @click.stop="mini = !mini">
                 <v-icon color="primary">chevron_left</v-icon>
               </v-btn>
             </v-list-tile-action>
@@ -57,7 +57,8 @@ export default class NavBar extends Vue {
     { title: "Calendário", icon: "date_range", route: "/calendar" },
     { title: "Eventos", icon: "event", route: "/events" },
     { title: "Pessoas", icon: "people", route: "/persons" },
-    { title: "Escalões", icon: "list", route: "/scales" }
+    { title: "Escalões", icon: "list", route: "/scales" },
+    { title: "Gerir provas", icon: "timer", route: "/manage-contest" }
   ];
 
   drawer: boolean = true;

@@ -52,7 +52,7 @@ import { GenderEnum } from "../services/scales/GenderEnum";
 
 @Component
 export default class ScalesView extends Vue {
-  private scales!: ScaleModel[];
+  private scales: ScaleModel[] = [];
 
   get maleScales() {
     return this.scales.filter(s => s.gender === GenderEnum.Male);

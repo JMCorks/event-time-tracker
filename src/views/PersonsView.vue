@@ -7,7 +7,7 @@
     </v-layout>
     <v-layout>
       <v-flex xs12 class="text-sm-right">
-        <v-btn color="primary" @click="displayPersonForm()">
+        <v-btn round color="primary" @click="displayPersonForm()">
           <v-icon left dark>add</v-icon>Criar pessoa
         </v-btn>
       </v-flex>
@@ -17,18 +17,12 @@
         <v-card>
           <v-list two-line subheader>
             <v-list-tile v-for="person in persons" :key="person._id" avatar>
-              <v-list-tile-avatar>
-                <v-icon class="blue lighten-1 white--text">person</v-icon>
-              </v-list-tile-avatar>
-
-              <v-list-tile-content>
-                <v-list-tile-title>{{ person.name }}</v-list-tile-title>
-                <v-list-tile-sub-title>{{ person.email }}</v-list-tile-sub-title>
-              </v-list-tile-content>
+              <person-avatar :person="person"></person-avatar>
+              <person-list-entry :person="person"></person-list-entry>
 
               <v-list-tile-action>
-                <v-btn icon ripple>
-                  <v-icon color="primary" @click="displayPersonForm(person)">edit</v-icon>
+                <v-btn round icon ripple @click="displayPersonForm(person)">
+                  <v-icon color="primary">edit</v-icon>
                 </v-btn>
               </v-list-tile-action>
             </v-list-tile>
@@ -48,11 +42,18 @@ import { mapGetters, mapActions } from "vuex";
 import { Getter, Action } from "vuex-class";
 
 import PersonForm from "@/components/person/PersonForm.vue";
-import { PersonModel } from "@/models/persons/PersonModel";
+import PersonListEntry from "@/components/person/PersonListEntry.vue";
+import PersonAvatar from "@/components/person/PersonAvatar.vue";
+
+import { PersonModel } from "@/models/person/PersonModel";
+import { ScaleModel } from "@/models/scale/ScaleModel";
+import { ScalesService } from "@/services/scales/ScalesService";
 
 @Component({
   components: {
-    PersonForm
+    PersonForm,
+    PersonListEntry,
+    PersonAvatar
   }
 })
 export default class PersonsView extends Vue {
@@ -61,9 +62,11 @@ export default class PersonsView extends Vue {
 
   private selectedPerson: PersonModel = new PersonModel();
   private showPersonForm: boolean = false;
+  private scales!: ScaleModel[];
 
   created() {
     this.getPersons();
+    this.scales = ScalesService.getScales();
   }
 
   public displayPersonForm(person?: PersonModel) {

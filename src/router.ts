@@ -37,6 +37,13 @@ export default new Router({
       // Lazy loading
       component: () =>
         import(/* webpackChunkName: "ScalesView" */ "./views/ScalesView.vue")
+    },
+    {
+      path: "/manage-contest",
+      name: "manage-contest",
+      // Lazy loading
+      component: () =>
+        import(/* webpackChunkName: "ScalesView" */ "./views/ManageContests.vue")
     }
   ]
 });

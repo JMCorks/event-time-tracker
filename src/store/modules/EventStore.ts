@@ -28,17 +28,20 @@ export const eventsModule: Module<EventsState, RootState> = {
     actions: {
         getEvents({ commit }) {
             PersistenceService.eventService.findEvents().then(events => {
-                return commit("setEvents", events);
+                const eventModels = events.map(event => new EventModel(event.title, event.date, event.details, event.organizerEmail, event.contesters, event._id))
+                return commit("setEvents", eventModels);
             });
         },
         postEvents({ commit }, newEvent: EventModel) {
             PersistenceService.eventService.insertEvent(newEvent).then(event => {
-                return commit("addEvent", event);
+                const eventModel = new EventModel(event.title, event.date, event.details, event.organizerEmail, event.contesters, event._id);
+                return commit("addEvent", eventModel);
             });
         },
         putEvent({ commit }, event: EventModel) {
             PersistenceService.eventService.updateEvent(event).then(event => {
-                return commit("updateEvent", event);
+                const eventModel = new EventModel(event.title, event.date, event.details, event.organizerEmail, event.contesters, event._id);
+                return commit("updateEvent", eventModel);
             });
         }
     }

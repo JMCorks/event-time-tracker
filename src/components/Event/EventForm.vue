@@ -40,11 +40,12 @@
       <v-textarea v-model="formData.details" label="Descrição"></v-textarea>
 
       <v-btn
+        round
         :disabled="!valid"
         color="success"
         @click="validateAndSubmit"
       >{{ isCreating? 'Criar': 'Actualizar' }}</v-btn>
-      <v-btn color="error" @click="close">Cancelar</v-btn>
+      <v-btn round color="error" @click="close">Cancelar</v-btn>
     </v-card>
   </v-form>
 </template>
@@ -89,16 +90,18 @@ export default class EventForm extends Vue {
   ];
 
   private mapFormToEvent(): EventModel {
-    let event: EventModel = new EventModel();
+    let event: EventModel = new EventModel(
+      this.formData.title,
+      this.formData.date,
+      this.formData.details,
+      this.formData.organizerEmail
+    );
 
     if (!this.isCreating) {
       event._id = this.formData._id;
+      event.contesters = this.formData.contesters;
     }
 
-    event.title = this.formData.title;
-    event.date = this.formData.date;
-    event.details = this.formData.details;
-    event.organizerEmail = this.formData.organizerEmail;
     return event;
   }
 

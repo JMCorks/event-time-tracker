@@ -7,7 +7,7 @@
     </v-layout>
     <v-layout>
       <v-flex xs12 class="text-sm-right">
-        <v-btn color="primary" @click="displayEventForm()">
+        <v-btn round color="primary" @click="displayEventForm()">
           <v-icon left dark>add</v-icon>Criar evento
         </v-btn>
       </v-flex>
@@ -29,8 +29,8 @@
               </v-list-tile-content>
 
               <v-list-tile-action>
-                <v-btn icon ripple>
-                  <v-icon color="primary" @click="displayEventForm(event)">edit</v-icon>
+                <v-btn round icon ripple @click="displayEventForm(event)">
+                  <v-icon color="primary">edit</v-icon>
                 </v-btn>
               </v-list-tile-action>
             </v-list-tile>
@@ -50,7 +50,7 @@
               </v-list-tile-content>
 
               <v-list-tile-action>
-                <v-btn icon ripple>
+                <v-btn round icon ripple>
                   <v-icon color="primary">timeline</v-icon>
                 </v-btn>
               </v-list-tile-action>

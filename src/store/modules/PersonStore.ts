@@ -28,17 +28,20 @@ export const personsModule: Module<PersonsState, RootState> = {
     actions: {
         getPersons({ commit }) {
             PersistenceService.personsService.findPersons().then(persons => {
-                return commit("setPersons", persons);
+                const personModels = persons.map(person => new PersonModel(person.name, person.birth, person.idCard, person.email, person.gender, person._id))
+                return commit("setPersons", personModels);
             });
         },
         postPersons({ commit }, newPerson: PersonModel) {
             PersistenceService.personsService.insertPerson(newPerson).then(person => {
-                return commit("addPerson", person);
+                const personModel = new PersonModel(person.name, person.birth, person.idCard, person.email, person.gender, person._id);
+                return commit("addPerson", personModel);
             });
         },
         putPerson({ commit }, person: PersonModel) {
             PersistenceService.personsService.updatePerson(person).then(person => {
-                return commit("updatePerson", person);
+                const personModel = new PersonModel(person.name, person.birth, person.idCard, person.email, person.gender, person._id);
+                return commit("updatePerson", personModel);
             });
         }
     }

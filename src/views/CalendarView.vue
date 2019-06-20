@@ -29,7 +29,7 @@
                       <v-toolbar color="primary" dark>
                         <v-toolbar-title v-html="event.title"></v-toolbar-title>
                         <v-spacer></v-spacer>
-                        <v-btn icon @click="displayEventForm(event)">
+                        <v-btn round icon @click="displayEventForm(event)">
                           <v-icon>edit</v-icon>
                         </v-btn>
                       </v-toolbar>
@@ -37,7 +37,7 @@
                         <span v-html="event.details"></span>
                       </v-card-title>
                       <v-card-actions>
-                        <v-btn flat color="secondary">Cancel</v-btn>
+                        <v-btn round color="secondary">Cancel</v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-menu>
@@ -50,12 +50,12 @@
     </v-layout>
     <v-layout>
       <v-flex xs12 class="text-sm-left">
-        <v-btn color="primary" @click="$refs.calendar.prev()">
+        <v-btn round color="primary" @click="$refs.calendar.prev()">
           <v-icon>keyboard_arrow_left</v-icon>
         </v-btn>
       </v-flex>
       <v-flex xs12 class="text-sm-right">
-        <v-btn color="primary" @click="$refs.calendar.next()">
+        <v-btn round color="primary" @click="$refs.calendar.next()">
           <v-icon>keyboard_arrow_right</v-icon>
         </v-btn>
       </v-flex>

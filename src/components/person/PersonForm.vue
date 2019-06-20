@@ -35,12 +35,18 @@
         required
       ></v-text-field>
 
+      <v-radio-group v-model="formData.gender" row>
+        <v-radio label="Masculino" value="male" key="male"/>
+        <v-radio label="Feminino" value="female" key="female"/>
+      </v-radio-group>
+
       <v-btn
+        round
         :disabled="!valid"
         color="success"
         @click="validateAndSubmit"
       >{{ isCreating? 'Criar': 'Actualizar' }}</v-btn>
-      <v-btn color="error" @click="close">Cancelar</v-btn>
+      <v-btn round color="error" @click="close">Cancelar</v-btn>
     </v-card>
   </v-form>
 </template>
@@ -49,7 +55,7 @@
 import { Action } from "vuex-class";
 import { Component, Vue, Prop } from "vue-property-decorator";
 
-import { PersonModel } from "@/models/persons/PersonModel";
+import { PersonModel } from "@/models/person/PersonModel";
 
 @Component({
   props: {
@@ -95,6 +101,7 @@ export default class PersonForm extends Vue {
     person.birth = this.formData.birth;
     person.idCard = this.formData.idCard;
     person.email = this.formData.email;
+    person.gender = this.formData.gender;
     return person;
   }
 
