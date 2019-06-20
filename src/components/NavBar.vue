@@ -58,7 +58,8 @@ export default class NavBar extends Vue {
     { title: "Eventos", icon: "event", route: "/events" },
     { title: "Pessoas", icon: "people", route: "/persons" },
     { title: "Escalões", icon: "list", route: "/scales" },
-    { title: "Gerir provas", icon: "timer", route: "/manage-contest" }
+    { title: "Gerir provas", icon: "group_add", route: "/manage-contest" },
+    { title: "Provas", icon: "timer", route: "/contests" }
   ];
 
   drawer: boolean = true;

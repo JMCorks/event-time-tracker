@@ -38,7 +38,7 @@
               <v-subheader inset class="blue--text">Adicionar/Remover concorrentes</v-subheader>
 
               <v-list-tile v-for="person in persons" :key="person._id" avatar>
-                <person-avatar :person="person"></person-avatar>
+                <person-list-avatar :person="person"></person-list-avatar>
                 <person-list-entry :person="person"></person-list-entry>
 
                 <v-list-tile-action>
@@ -73,7 +73,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import PersonListEntry from "@/components/person/PersonListEntry.vue";
-import PersonAvatar from "@/components/person/PersonAvatar.vue";
+import PersonListAvatar from "@/components/person/PersonListAvatar.vue";
 
 import { ScaleModel } from "@/models/scale/ScaleModel";
 import { ScalesService } from "@/services/scales/ScalesService";
@@ -85,10 +85,10 @@ import { PersonModel } from "../models/person/PersonModel";
 @Component({
   components: {
     PersonListEntry,
-    PersonAvatar
+    PersonListAvatar
   }
 })
-export default class ScalesView extends Vue {
+export default class ManageContestsView extends Vue {
   @Getter("events") events!: EventModel[];
   @Action("getEvents") getEvents!: () => EventModel[];
   @Action("putEvent") putEvent!: (event: EventModel) => EventModel;
@@ -100,7 +100,7 @@ export default class ScalesView extends Vue {
 
   private getEventFromId(eventId: number): EventModel {
     const event = this.events.find(e => e._id === eventId);
-    return event!;
+    return { ...event! };
   }
 
   public addPersonToEvent(person: PersonModel, eventId: number) {
@@ -121,7 +121,6 @@ export default class ScalesView extends Vue {
 
   saveEvent(eventId: number) {
     const event = this.getEventFromId(eventId);
-    debugger;
     this.putEvent(event);
   }
 

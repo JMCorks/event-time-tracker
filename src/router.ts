@@ -43,7 +43,21 @@ export default new Router({
       name: "manage-contest",
       // Lazy loading
       component: () =>
-        import(/* webpackChunkName: "ScalesView" */ "./views/ManageContests.vue")
+        import(/* webpackChunkName: "ManageContestsView" */ "./views/ManageContestsView.vue")
+    },
+    {
+      path: "/contests",
+      name: "contests",
+      // Lazy loading
+      component: () =>
+        import(/* webpackChunkName: "ContestsView" */ "./views/ContestsView.vue")
+    },
+    {
+      path: "/contest/:id",
+      name: "contest",
+      // Lazy loading
+      component: () =>
+        import(/* webpackChunkName: "ContestView" */ "./views/ContestView.vue")
     }
   ]
 });

@@ -17,7 +17,7 @@ import { PersonModel } from "@/models/person/PersonModel";
     }
   }
 })
-export default class PersonAvatar extends Vue {}
+export default class PersonListAvatar extends Vue {}
 </script>
 
 <style>

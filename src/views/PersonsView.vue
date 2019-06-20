@@ -17,7 +17,7 @@
         <v-card>
           <v-list two-line subheader>
             <v-list-tile v-for="person in persons" :key="person._id" avatar>
-              <person-avatar :person="person"></person-avatar>
+              <person-list-avatar :person="person"></person-list-avatar>
               <person-list-entry :person="person"></person-list-entry>
 
               <v-list-tile-action>
@@ -43,7 +43,7 @@ import { Getter, Action } from "vuex-class";
 
 import PersonForm from "@/components/person/PersonForm.vue";
 import PersonListEntry from "@/components/person/PersonListEntry.vue";
-import PersonAvatar from "@/components/person/PersonAvatar.vue";
+import PersonListAvatar from "@/components/person/PersonListAvatar.vue";
 
 import { PersonModel } from "@/models/person/PersonModel";
 import { ScaleModel } from "@/models/scale/ScaleModel";
@@ -53,7 +53,7 @@ import { ScalesService } from "@/services/scales/ScalesService";
   components: {
     PersonForm,
     PersonListEntry,
-    PersonAvatar
+    PersonListAvatar
   }
 })
 export default class PersonsView extends Vue {
