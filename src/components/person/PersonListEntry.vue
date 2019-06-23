@@ -1,6 +1,6 @@
 <template>
   <v-list-tile-content>
-    <v-list-tile-title>{{ person.name }} - {{getPersonAge(person.birth)}}</v-list-tile-title>
+    <v-list-tile-title>{{ person.name }} - {{getPersonAge(person.birth)}} Anos</v-list-tile-title>
     <v-list-tile-sub-title>{{ person.email }} - {{getPersonScale(getPersonAge(person.birth), person.gender)}}</v-list-tile-sub-title>
   </v-list-tile-content>
 </template>

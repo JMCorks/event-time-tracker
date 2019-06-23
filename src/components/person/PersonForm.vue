@@ -1,6 +1,14 @@
 <template>
   <v-form ref="form" v-model="valid" lazy-validation>
     <v-card class="pa-3">
+      <v-card-title primary-title>
+        <div>
+          <h3
+            class="headline mb-0"
+          >{{formData._id? 'Editar pessoa ' + formData.name: 'Criar nova pessoa'}}</h3>
+        </div>
+      </v-card-title>
+
       <v-text-field v-model="formData.name" :rules="requiredFieldValidation" label="Nome" required></v-text-field>
 
       <v-text-field v-model="formData.email" :rules="emailValidation" label="E-mail" required></v-text-field>

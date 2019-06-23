@@ -77,10 +77,10 @@ import PersonListAvatar from "@/components/person/PersonListAvatar.vue";
 
 import { ScaleModel } from "@/models/scale/ScaleModel";
 import { ScalesService } from "@/services/scales/ScalesService";
-import { GenderEnum } from "../services/scales/GenderEnum";
-import { EventModel } from "../models/event/EventModel";
+import { GenderEnum } from "@/services/scales/GenderEnum";
+import { EventModel } from "@/models/event/EventModel";
 import { Getter, Action } from "vuex-class";
-import { PersonModel } from "../models/person/PersonModel";
+import { PersonModel } from "@/models/person/PersonModel";
 
 @Component({
   components: {
