@@ -90,8 +90,13 @@ import { PersonModel } from "@/models/person/PersonModel";
 })
 export default class ManageContestsView extends Vue {
   @Getter("events") events!: EventModel[];
-  @Action("getEvents") getEvents!: () => EventModel[];
-  @Action("putEvent") putEvent!: (event: EventModel) => EventModel;
+  @Action("getEvents") getEvents!: () => Promise<EventModel[]>;
+  @Action("putEvent") putEvent!: (
+    event: EventModel
+  ) => Promise<void | PersonModel>;
+
+  @Action("showSuccessMessage") showSuccessMessage!: (message: string) => void;
+  @Action("showErrorMessage") showErrorMessage!: (message: string) => void;
 
   @Getter("persons") persons!: PersonModel[];
   @Action("getPersons") getPersons!: () => PersonModel[];
@@ -106,6 +111,9 @@ export default class ManageContestsView extends Vue {
   public addPersonToEvent(person: PersonModel, eventId: number) {
     const event = this.getEventFromId(eventId);
     event.contesters.push(person._id!);
+    this.showSuccessMessage(
+      "Concorrente adicionado à prova. (Para confirmar guarde as alterações)"
+    );
   }
 
   public personIsonEvent(person: PersonModel, eventId: number) {
@@ -117,11 +125,20 @@ export default class ManageContestsView extends Vue {
     const event = this.getEventFromId(eventId);
     const index = event.contesters.indexOf(person._id!);
     event.contesters.splice(index, 1);
+    this.showSuccessMessage(
+      "Concorrente removido da prova. (Para confirmar guarde as alterações)"
+    );
   }
 
   saveEvent(eventId: number) {
     const event = this.getEventFromId(eventId);
-    this.putEvent(event);
+    this.putEvent(event)
+      .then(event => {
+        this.showSuccessMessage("Evento guardado com sucesso.");
+      })
+      .catch(error => {
+        this.showErrorMessage("Erro a guardar o evento. Erro: " + error);
+      });
   }
 
   created() {

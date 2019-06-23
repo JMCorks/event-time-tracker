@@ -78,8 +78,16 @@ import { PersonModel } from "@/models/person/PersonModel";
   }
 })
 export default class PersonForm extends Vue {
-  @Action("postPersons") postPersons!: (newEvent: PersonModel) => PersonModel;
-  @Action("putPerson") putPerson!: (event: PersonModel) => PersonModel;
+  @Action("postPersons") postPersons!: (
+    newEvent: PersonModel
+  ) => Promise<void | PersonModel>;
+
+  @Action("putPerson") putPerson!: (
+    event: PersonModel
+  ) => Promise<void | PersonModel>;
+
+  @Action("showSuccessMessage") showSuccessMessage!: (message: string) => void;
+  @Action("showErrorMessage") showErrorMessage!: (message: string) => void;
   @Prop() formData!: PersonModel;
   @Prop() close!: Function;
 
@@ -115,15 +123,33 @@ export default class PersonForm extends Vue {
 
   public validateAndSubmit() {
     if ((this.$refs.form as HTMLFormElement).validate()) {
+      let action: Promise<void | PersonModel>;
+
       if (this.isCreating) {
-        this.postPersons(this.mapFormToEvent());
+        action = this.postPersons(this.mapFormToEvent());
       } else {
-        this.putPerson(this.mapFormToEvent());
+        action = this.putPerson(this.mapFormToEvent());
       }
 
-      this.reset();
-      this.resetValidation();
-      this.close();
+      action
+        .then(result => {
+          if (this.isCreating) {
+            this.showSuccessMessage("Pessoa criada com sucesso.");
+          } else {
+            this.showSuccessMessage("Pessoa actualizada com sucesso.");
+          }
+
+          this.reset();
+          this.resetValidation();
+          this.close();
+        })
+        .catch(error => {
+          if (this.isCreating) {
+            this.showErrorMessage("Erro a criar a pessoa. Erro: " + error);
+          } else {
+            this.showErrorMessage("Erro a actualizar a pessoa. Erro: " + error);
+          }
+        });
     }
   }
 

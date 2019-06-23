@@ -1,3 +1,5 @@
-export class RootState {
+import { SnackBarModel } from "./SnackBar";
 
+export class RootState {
+  snackbar: SnackBarModel;
 }

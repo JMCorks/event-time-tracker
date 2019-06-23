@@ -77,8 +77,16 @@ import { EventModel } from "@/models/event/EventModel";
   }
 })
 export default class EventForm extends Vue {
-  @Action("postEvents") postEvents!: (newEvent: EventModel) => EventModel;
-  @Action("putEvent") putEvent!: (event: EventModel) => EventModel;
+  @Action("postEvents") postEvents!: (
+    newEvent: EventModel
+  ) => Promise<void | EventModel>;
+
+  @Action("putEvent") putEvent!: (
+    event: EventModel
+  ) => Promise<void | EventModel>;
+
+  @Action("showSuccessMessage") showSuccessMessage!: (message: string) => void;
+  @Action("showErrorMessage") showErrorMessage!: (message: string) => void;
   @Prop() formData!: EventModel;
   @Prop() close!: Function;
 
@@ -115,15 +123,33 @@ export default class EventForm extends Vue {
 
   public validateAndSubmit() {
     if ((this.$refs.form as HTMLFormElement).validate()) {
+      let action: Promise<void | EventModel>;
+
       if (this.isCreating) {
-        this.postEvents(this.mapFormToEvent());
+        action = this.postEvents(this.mapFormToEvent());
       } else {
-        this.putEvent(this.mapFormToEvent());
+        action = this.putEvent(this.mapFormToEvent());
       }
 
-      this.reset();
-      this.resetValidation();
-      this.close();
+      action
+        .then(result => {
+          if (this.isCreating) {
+            this.showSuccessMessage("Evento criado com sucesso.");
+          } else {
+            this.showSuccessMessage("Evento actualizado com sucesso.");
+          }
+
+          this.reset();
+          this.resetValidation();
+          this.close();
+        })
+        .catch(error => {
+          if (this.isCreating) {
+            this.showErrorMessage("Erro a criar o evento. Erro: " + error);
+          } else {
+            this.showErrorMessage("Erro a actualizar o evento. Erro: " + error);
+          }
+        });
     }
   }
 
