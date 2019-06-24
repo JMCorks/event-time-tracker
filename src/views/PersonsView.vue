@@ -12,7 +12,7 @@
         </v-btn>
       </v-flex>
     </v-layout>
-    <v-layout v-if="persons && persons.lenght" class="mt-1" row>
+    <v-layout v-if="persons && persons.length" class="mt-1" row>
       <v-flex xs12>
         <v-card>
           <v-list two-line subheader>

@@ -23,7 +23,7 @@
                       label="Prova"
                     />
                   </v-flex>
-                  <v-flex xs6 class="text-sm-right">
+                  <v-flex v-if="eventIdSelected" xs6 class="text-sm-right">
                     <v-btn round small color="primary" @click="saveEvent(eventIdSelected)">
                       <v-icon left dark>check</v-icon>Guardar
                     </v-btn>

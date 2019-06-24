@@ -75,7 +75,7 @@ export default class NavBar extends Vue {
   ];
 
   drawer: boolean = true;
-  mini: boolean = false;
+  mini: boolean = true;
 
   public minimize() {
     /* const window = electron.remote.getCurrentWindow();
