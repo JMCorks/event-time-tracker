@@ -8,6 +8,17 @@
         <span>CicloClube BTT Elvas - Gestor de provas</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-btn @click="minimize" icon>
+        <v-icon>minimize</v-icon>
+      </v-btn>
+
+      <v-btn @click="maximize" icon>
+        <v-icon>filter_none</v-icon>
+      </v-btn>
+
+      <v-btn @click="close" icon>
+        <v-icon>close</v-icon>
+      </v-btn>
     </v-toolbar>
 
     <v-navigation-drawer v-model="drawer" app :mini-variant="mini" hide-overlay stateless>
@@ -50,6 +61,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import electron from "electron";
 
 @Component
 export default class NavBar extends Vue {
@@ -64,6 +76,25 @@ export default class NavBar extends Vue {
 
   drawer: boolean = true;
   mini: boolean = false;
+
+  public minimize() {
+    const window = electron.remote.getCurrentWindow();
+    window.minimize();
+  }
+
+  public close() {
+    const window = electron.remote.getCurrentWindow();
+    window.close();
+  }
+
+  public maximize() {
+    var window = electron.remote.getCurrentWindow();
+    if (!window.isMaximized()) {
+      window.maximize();
+    } else {
+      window.unmaximize();
+    }
+  }
 }
 </script>
 
