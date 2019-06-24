@@ -1,13 +1,14 @@
 import { DbModel } from '../db/DbModel';
+import { ContesterModel } from './ContesterModel';
 
 export class EventModel extends DbModel {
     public title: string;
     public date: string;
     public details: string;
     public organizerEmail: string;
-    public contesters: number[];
+    public contesters: ContesterModel[];
 
-    constructor(title: string = "", date: string = "", details: string = "", organizerEmail: string = "", contesters: number[] = [], _id?: number) {
+    constructor(title: string = "", date: string = "", details: string = "", organizerEmail: string = "", contesters: ContesterModel[] = [], _id?: number) {
         super(_id);
         this.title = title;
         this.date = date;

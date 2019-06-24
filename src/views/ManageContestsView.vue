@@ -40,13 +40,21 @@
                 <person-list-avatar :person="person"></person-list-avatar>
                 <person-list-entry :person="person"></person-list-entry>
 
+                <v-text-field
+                  v-model="competidorsIds[eventIdSelected+person._id]"
+                  :rules="requiredFieldValidation"
+                  label="Identificador na prova"
+                  required
+                ></v-text-field>
+
                 <v-list-tile-action>
                   <v-btn
                     round
                     icon
                     color="primary"
-                    v-if="!personIsonEvent(person, eventIdSelected)"
-                    @click="addPersonToEvent(person, eventIdSelected)"
+                    :disabled="!competidorsIds[eventIdSelected+person._id]"
+                    v-if="!personIsonEvent(person, eventIdSelected, competidorsIds[eventIdSelected+person._id])"
+                    @click="addPersonToEvent(person, eventIdSelected, competidorsIds[eventIdSelected+person._id])"
                   >
                     <v-icon color="white">add</v-icon>
                   </v-btn>
@@ -80,6 +88,7 @@ import { GenderEnum } from "@/services/scales/GenderEnum";
 import { EventModel } from "@/models/event/EventModel";
 import { Getter, Action } from "vuex-class";
 import { PersonModel } from "@/models/person/PersonModel";
+import { ContesterModel } from "../models/event/ContesterModel";
 
 @Component({
   components: {
@@ -101,28 +110,37 @@ export default class ManageContestsView extends Vue {
   @Action("getPersons") getPersons!: () => PersonModel[];
 
   eventIdSelected: number = 0;
+  competidorsIds: {
+    [eventpersonKey: number]: string;
+  } = {};
 
   private getEventFromId(eventId: number): EventModel {
     const event = this.events.find(e => e._id === eventId);
     return { ...event! };
   }
 
-  public addPersonToEvent(person: PersonModel, eventId: number) {
+  public personIsonEvent(person: PersonModel, eventId: number) {
     const event = this.getEventFromId(eventId);
-    event.contesters.push(person._id!);
+    return event.contesters.some(contester => contester._id === person._id);
+  }
+
+  public addPersonToEvent(
+    person: PersonModel,
+    eventId: number,
+    identifier: string
+  ) {
+    const event = this.getEventFromId(eventId);
+    event.contesters.push(new ContesterModel(identifier, person._id));
     this.showSuccessMessage(
       "Concorrente adicionado à prova. (Para confirmar guarde as alterações)"
     );
   }
 
-  public personIsonEvent(person: PersonModel, eventId: number) {
-    const event = this.getEventFromId(eventId);
-    return event.contesters.some(pId => pId === person._id);
-  }
-
   public removePersonFromEvent(person: PersonModel, eventId: number) {
     const event = this.getEventFromId(eventId);
-    const index = event.contesters.indexOf(person._id!);
+    const index = event.contesters.findIndex(
+      contester => contester._id === person._id
+    );
     event.contesters.splice(index, 1);
     this.showSuccessMessage(
       "Concorrente removido da prova. (Para confirmar guarde as alterações)"
@@ -140,8 +158,22 @@ export default class ManageContestsView extends Vue {
       });
   }
 
+  public requiredFieldValidation: [(f: string) => any] = [
+    (f: string) => !!f || "Campo obrigatório"
+  ];
+
   created() {
-    this.getEvents();
+    this.getEvents().then(events => {
+      this.events.forEach(event => {
+        event.contesters.forEach(contester => {
+          if (event._id && contester._id && contester.identifier) {
+            this.competidorsIds[event._id + contester._id] =
+              contester.identifier;
+          }
+        });
+      });
+    });
+
     this.getPersons();
   }
 }

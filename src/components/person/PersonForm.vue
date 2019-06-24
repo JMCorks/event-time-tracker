@@ -39,7 +39,7 @@
       <v-text-field
         v-model="formData.idCard"
         :rules="requiredFieldValidation"
-        label="Identificador"
+        label="Identificador (CC/BI/NIF)"
         required
       ></v-text-field>
 

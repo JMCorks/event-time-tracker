@@ -34,11 +34,14 @@
                         </v-btn>
                       </v-toolbar>
                       <v-card-title primary-title>
-                        <span v-html="event.details"></span>
+                        <div>
+                          <v-icon class="mr-1" color="primary">mail</v-icon>
+                          {{event.organizerEmail}}
+                        </div>
                       </v-card-title>
-                      <v-card-actions>
-                        <v-btn round color="secondary">Cancel</v-btn>
-                      </v-card-actions>
+                      <v-card-text>
+                        <div>{{event.details}}</div>
+                      </v-card-text>
                     </v-card>
                   </v-menu>
                 </template>
