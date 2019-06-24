@@ -32,9 +32,8 @@
               </v-list-tile-content>
             </v-list-tile>
 
-            <v-divider inset></v-divider>
-
             <div v-if="eventIdSelected">
+              <v-divider class="mr-4" inset></v-divider>
               <v-subheader inset class="blue--text">Adicionar/Remover concorrentes</v-subheader>
 
               <v-list-tile v-for="person in persons" :key="person._id" avatar>

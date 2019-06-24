@@ -12,7 +12,7 @@
         </v-btn>
       </v-flex>
     </v-layout>
-    <v-layout class="mt-1" row>
+    <v-layout v-if="events && events.lenght" class="mt-1" row>
       <v-flex xs12>
         <v-card>
           <v-list two-line subheader>
@@ -35,7 +35,7 @@
               </v-list-tile-action>
             </v-list-tile>
 
-            <v-divider inset></v-divider>
+            <v-divider class="mr-4" inset></v-divider>
 
             <v-subheader inset>Eventos concluidos</v-subheader>
 

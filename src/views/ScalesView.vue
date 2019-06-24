@@ -22,7 +22,7 @@
               </v-list-tile-content>
             </v-list-tile>
 
-            <v-divider inset></v-divider>
+            <v-divider class="mr-4" inset></v-divider>
 
             <v-subheader inset class="pink--text">Escalões femininos</v-subheader>
 

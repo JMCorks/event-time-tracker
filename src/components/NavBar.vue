@@ -78,22 +78,22 @@ export default class NavBar extends Vue {
   mini: boolean = false;
 
   public minimize() {
-    const window = electron.remote.getCurrentWindow();
-    window.minimize();
+    /* const window = electron.remote.getCurrentWindow();
+    window.minimize(); */
   }
 
   public close() {
-    const window = electron.remote.getCurrentWindow();
-    window.close();
+    /* const window = electron.remote.getCurrentWindow();
+    window.close(); */
   }
 
   public maximize() {
-    var window = electron.remote.getCurrentWindow();
+    /* var window = electron.remote.getCurrentWindow();
     if (!window.isMaximized()) {
       window.maximize();
     } else {
       window.unmaximize();
-    }
+    } */
   }
 }
 </script>
