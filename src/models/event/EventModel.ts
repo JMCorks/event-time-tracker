@@ -8,7 +8,7 @@ export class EventModel extends DbModel {
     public organizerEmail: string;
     public contesters: ContesterModel[];
 
-    constructor(title: string = "", date: string = "", details: string = "", organizerEmail: string = "", contesters: ContesterModel[] = [], _id?: number) {
+    constructor(title: string = "", date: string = "", details: string = "", organizerEmail: string = "", contesters: ContesterModel[] = [], _id?: string) {
         super(_id);
         this.title = title;
         this.date = date;

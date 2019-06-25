@@ -2,7 +2,7 @@ import { EventModel } from '@/models/event/EventModel';
 import { DbHandler } from './DbHandler';
 
 export class EventsService extends DbHandler<EventModel> {
-    public findEvents(where?: EventModel): Promise<Array<EventModel>> {
+    public findEvents(where?: Partial<EventModel>): Promise<Array<EventModel>> {
         return super.findDocs(where);
     }
 

@@ -1,7 +1,7 @@
 export class DbModel {
-    _id?: number;
+    _id?: string;
 
-    constructor(_id?: number) {
+    constructor(_id?: string) {
         this._id = _id;
     }
 }

@@ -109,24 +109,24 @@ export default class ManageContestsView extends Vue {
   @Getter("persons") persons!: PersonModel[];
   @Action("getPersons") getPersons!: () => PersonModel[];
 
-  eventIdSelected: number = 0;
+  eventIdSelected: string = "";
   competidorsIds: {
-    [eventpersonKey: number]: string;
+    [eventpersonKey: string]: string;
   } = {};
 
-  private getEventFromId(eventId: number): EventModel {
+  private getEventFromId(eventId: string): EventModel {
     const event = this.events.find(e => e._id === eventId);
     return { ...event! };
   }
 
-  public personIsonEvent(person: PersonModel, eventId: number) {
+  public personIsonEvent(person: PersonModel, eventId: string) {
     const event = this.getEventFromId(eventId);
     return event.contesters.some(contester => contester._id === person._id);
   }
 
   public addPersonToEvent(
     person: PersonModel,
-    eventId: number,
+    eventId: string,
     identifier: string
   ) {
     const event = this.getEventFromId(eventId);
@@ -136,7 +136,7 @@ export default class ManageContestsView extends Vue {
     );
   }
 
-  public removePersonFromEvent(person: PersonModel, eventId: number) {
+  public removePersonFromEvent(person: PersonModel, eventId: string) {
     const event = this.getEventFromId(eventId);
     const index = event.contesters.findIndex(
       contester => contester._id === person._id
@@ -147,7 +147,7 @@ export default class ManageContestsView extends Vue {
     );
   }
 
-  saveEvent(eventId: number) {
+  saveEvent(eventId: string) {
     const event = this.getEventFromId(eventId);
     this.putEvent(event)
       .then(event => {

@@ -8,7 +8,7 @@ export abstract class DbHandler<T extends DbModel> {
         this.db = db;
     }
 
-    protected findDocs(where?: T): Promise<Array<T>> {
+    protected findDocs(where?: Partial<T>): Promise<Array<T>> {
         return new Promise((resolve, error) => {
             this.db.find(where, (err: Error, documents: T[]) => {
                 if (err) {
